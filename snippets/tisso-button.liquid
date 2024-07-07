@@ -1,0 +1,84 @@
+<button class="tisso-button-main {{ classname }} {% if variant == 'secondary' %}secondary-variant{% endif %}">
+  <span>{{ button_text }}</span>
+  <img src="{{ 'arrow-icon.svg' |  asset_url }}" alt="arrow" class="tisso-button-icon" />
+</button>
+
+<style>
+  .tisso-button-main {
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFF544;
+    width: 220px;
+    border: none;
+    height: 50px;
+    cursor: pointer;
+    box-shadow: 0px 2px 4px 0px #00000033;
+  }
+
+  .tisso-button-main::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: #00000033;
+    transition: width 0.3s ease-out;
+    z-index: 0;
+  }
+
+  .tisso-button-main:hover {
+    color: #ffffff
+  }
+
+  .tisso-button-main:hover .tisso-button-icon {
+    content: url("{{'arrow-icon-white.svg' |  asset_url}}")
+  }
+
+  .tisso-button-main:hover::before {
+    background-color: #000000;
+    width: 100%;
+  }
+
+  .tisso-button-main span {
+    font-family: Jost;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20.48px;
+    text-align: center;
+    z-index: 1;
+  }
+
+  .tisso-button-icon {
+    margin-left: 18px;
+    z-index: 1;
+  }
+
+  .tisso-button-main.secondary-variant {
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+  .tisso-button-main.secondary-variant .tisso-button-icon {
+    content: url("{{'arrow-icon-white.svg' |  asset_url}}")
+  }
+
+  .tisso-button-main.secondary-variant:hover .tisso-button-icon {
+    content: url("{{'arrow-icon.svg' |  asset_url}}")
+  }
+
+  .tisso-button-main.secondary-variant::before {
+    background-color: #FFF54466;
+  }
+
+  .tisso-button-main.secondary-variant:hover::before {
+    background-color: #FFF544;
+  }
+
+  .tisso-button-main.secondary-variant:hover {
+  background-color: #000000;
+  color: #000000;
+  }
+</style>

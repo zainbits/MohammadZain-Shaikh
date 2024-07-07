@@ -1,0 +1,166 @@
+<section class="tisso-products-container">
+  <div class="tisso-products-grid-title">
+    <span>{{ section.settings.tisso-products-grid-title-text }}</span>
+  </div>
+  <div class="tisso-products-grid-content">
+    {% for product in section.settings.tisso-products %}
+      <div
+        class="tisso-product-grid-item"
+        data-image="{{ product.featured_image |  image_url }}"
+        data-price="{{ product.price | money }}"
+        data-name="{{ product.title }}"
+        data-description="{{ product.description |  truncatewords: 15 }}">
+        <img src="{{ product.featured_image | image_url }}" />
+        <div class="tisso-product-options-wrapper">
+          {% for option in product.options %}
+            {% if option == 'Color' %}
+              <div class="tisso-color-options">
+                <label>{{ option }}</label>
+                {% assign option_index = forloop.index0 %}
+                <div class="tisso-color-options-wrapper">
+                  {% for value in product.options_with_values[option_index].values %}
+                    <div class="tisso-color-input-wrapper">
+                      <input
+                        class="color-option-input"
+                        type="radio"
+                        id="{{ value }}-{{ product.id }}"
+                        name="{{ option }}"
+                        value="{{ value | escape }}" />
+                      <label class="color-option-label" for="{{ value }}-{{ product.id }}">{{ value }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% else %}
+              <div class="tisso-option-select-wrapper">
+                <label for="option-{{ forloop.index }}">{{ option }}</label>
+                <select
+                  class="tisso-option-select"
+                  id="option-{{ forloop.index }}"
+                  name="options[{{ option }}]">
+                  {% for value in product.options_with_values[forloop.index0].values %}
+                    <option value="{{ value | escape }}">{{ value }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            {% endif %}
+          {% endfor %}
+          <span class="_wrapper" style="display:none;">
+            {% for variant_popup in product.variants %}
+              <span
+                class="variant_details_popup"
+                data-popup-variant-title="{{ variant_popup.title }}"
+                data-popup-variant-id="{{ variant_popup.id }}">{{ variant_popup.title }}</span>
+            {% endfor %}
+          </span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% render 'tisso-popup' %}
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lustria &display=swap');
+  .tisso-products-container {
+    display: flex;
+    flex-direction: column;
+    padding: 90px 51.5px 51.5px;
+  }
+
+  .tisso-products-grid-title {
+    font-family: Lustria;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 43.2px;
+    text-align: left;
+    margin-bottom: 30px;
+  }
+
+  .tisso-products-grid-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .tisso-product-grid-item {
+    cursor: pointer;
+  }
+
+  .tisso-product-grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .tisso-product-options-wrapper {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .tisso-products-container {
+      padding-top: 40px;
+      padding-right: 16.72px;
+      padding-left: 16.72px;
+    }
+
+    .tisso-products-grid-content {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px;
+    }
+
+    .tisso-products-grid-title {
+      font-size: 24px;
+      line-height: 28.8px;
+      text-align: center;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('tissoPopup');
+    const gridItems = document.querySelectorAll('.tisso-product-grid-item');
+
+    gridItems.forEach(item => {
+      item.addEventListener('click', (event) => {
+        document.querySelector('.tisso-popup-product-image').src = item.dataset.image;
+        document.querySelector('.tisso-popup-product-name').textContent = item.dataset.name;
+        document.querySelector('.tisso-popup-product-price').textContent = item.dataset.price;
+        document.querySelector('.tisso-popup-product-description').innerHTML = item.dataset.description;
+        document.querySelector('.tisso-popup-product-options').innerHTML = item.querySelector('.tisso-product-options-wrapper').innerHTML;
+        popup.style.display = 'flex';
+      })
+    });
+
+    window.addEventListener('click', (event) => {
+      if (event.target === popup) {
+        popup.style.display = 'none';
+      }
+    });
+  })
+
+</script>
+
+{% schema %}
+  {
+    "name": "Tisso Product Grid",
+    "settings": [
+      {
+        "type": "product_list",
+        "id": "tisso-products",
+        "label": "Tisso Products"
+      }, {
+        "type": "text",
+        "id": "tisso-products-grid-title-text",
+        "label": "Title Text"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Tisso Products"
+      }
+    ]
+  }
+{% endschema %}

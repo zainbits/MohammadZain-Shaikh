@@ -1,0 +1,258 @@
+<section class="tisso-container">
+  <div class="tisso-head-container">
+    <img class="hamburger-icon" src="{{ 'hamburger-icon.svg' |  asset_url }}" />
+    <div class="tisso-head-image">
+      <img src="{{ section.settings.tisso-head-logo |  image_url: width: section.settings.tisso-head-logo.width, height: section.settings.tisso-head-logo.height }}" alt="Tisso" />
+    </div>
+    <div class="tisso-head-text">{{ section.settings.tisso-head-title }}</div>
+    {% render 'tisso-button'
+      , button_text: section.settings.tisso-head-button-text %}
+  </div>
+  <div class="tisso-body-container">
+    <div class="tisso-body-content">
+      <h1 class="tisso-body-title">{{ section.settings.tisso-body-title }}</h1>
+      <p class="tisso-body-desc">{{ section.settings.tisso-body-desc }}</p>
+      <p class="tisso-body-desc-mobile">{{ section.settings.tisso-body-desc-mobile }}</p>
+      {% render 'tisso-button'
+        , button_text: section.settings.tisso-body-button-text
+        , classname: 'tisso-body-button'
+        , variant: 'secondary' %}
+    </div>
+    <div class="tisso-button-mobile">
+      {% render 'tisso-button'
+        , button_text: section.settings.tisso-body-button-text
+        , classname: 'tisso-body-button'
+        , variant: 'secondary' %}
+    </div>
+  </div>
+  <div class="tisso-foot-container">
+    <span>{{ section.settings.tisso-foot-text }}</span>
+  </div>
+</section>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Jost:ital, wght@0, 100..900;1, 100..900 &display=swap');
+  .tisso-container {
+    font-family: Jost;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  }
+
+  .tisso-head-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F5F5F5;
+    padding: 22.5px 50.78px;
+  }
+
+  .tisso-head-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .tisso-head-image img {
+    height: 100%;
+  }
+
+  .tisso-head-text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 13.42px;
+  }
+
+  .tisso-body-container {
+    display: flex;
+    background-image: url("{{ section.settings.tisso-body-background | image_url: width: section.settings.tisso-body-background.width, height: section.settings.tisso-body-background.height }}");
+    height: 814px;
+  }
+
+  .tisso-body-content {
+    min-height: 390px;
+    width: 600px;
+    background-color: #ffffff;
+    padding-left: 67px;
+    padding-top: 35px;
+    align-self: flex-end;
+  }
+
+  .tisso-body-title {
+    margin: 0;
+    font-family: Jost;
+    font-size: 70px;
+    font-weight: 500;
+    line-height: 70px;
+    text-align: left;
+  }
+
+  .tisso-body-desc {
+    margin-top: 50px;
+    font-family: Jost;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+  }
+
+  .tisso-body-desc-mobile {
+    display: none;
+  }
+
+  .tisso-body-button {
+    margin-top: 50px;
+    margin-bottom: 51px;
+  }
+
+  .tisso-foot-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 34px;
+    background-color: #F5F5F5;
+    font-family: Jost;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 13.42px;
+    text-align: center;
+  }
+
+  .tisso-button-mobile button {
+    display: none;
+  }
+
+  .hamburger-icon {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .tisso-head-container {
+      position: relative;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    .hamburger-icon {
+      display: block;
+      position: absolute;
+      left: 18px;
+      cursor: pointer;
+    }
+
+    .tisso-head-text {
+      display: none;
+    }
+
+    .tisso-head-container button {
+      display: none;
+    }
+
+    .tisso-body-container {
+      display: flex;
+      flex-direction: column;
+      height: 421px;
+      justify-content: space-between;
+    }
+
+    .tisso-body-content {
+      display: flex;
+      align-self: unset;
+      width: 100%;
+      flex-direction: column;
+      min-height: 157px;
+      padding: 49px 89px 12px;
+    }
+
+    .tisso-body-title {
+      font-family: Jost;
+      font-size: 30px;
+      font-weight: 500;
+      line-height: 30px;
+      text-align: center;
+    }
+
+    .tisso-body-desc {
+      display: none;
+    }
+
+    .tisso-body-desc-mobile {
+      display: flex;
+      font-family: Jost;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20.8px;
+      text-align: center;
+      margin-top: 21px;
+      margin-bottom: 12px;
+    }
+
+    .tisso-body-content button {
+      display: none;
+    }
+
+    .tisso-button-mobile {
+      display: flex;
+      justify-content: center;
+    }
+
+    .tisso-button-mobile button {
+      display: flex;
+    }
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Tisso Banner",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "tisso-head-logo",
+        "label": "Tisso Brand Logo"
+      },
+      {
+        "type": "text",
+        "id": "tisso-head-title",
+        "label": "Tisso Brand Title"
+      },
+      {
+        "type": "text",
+        "id": "tisso-head-button-text",
+        "label": "Tisso Head Button Text"
+      },
+      {
+        "type": "image_picker",
+        "id": "tisso-body-background",
+        "label": "Tisso Body Background"
+      }, {
+        "type": "text",
+        "id": "tisso-body-title",
+        "label": "Tisso Body Title"
+      }, {
+        "type": "text",
+        "id": "tisso-body-desc",
+        "label": "Tisso Body Description"
+      }, {
+        "type": "text",
+        "id": "tisso-body-desc-mobile",
+        "label": "Tisso Body Description For Mobile"
+      }, {
+        "type": "text",
+        "id": "tisso-body-button-text",
+        "label": "Tisso Body Button Text"
+      }, {
+        "type": "text",
+        "id": "tisso-foot-text",
+        "label": "Tisso Foot Text"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Tisso Banner"
+      }
+    ]
+  }
+{% endschema %}
