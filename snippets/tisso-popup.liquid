@@ -1,0 +1,269 @@
+<div class="tisso-popup-container" id="tissoPopup">
+  <div class="tisso-popup-content">
+    <img class="tisso-close-icon" src="{{ 'close-icon.svg' |  asset_url }}" />
+    <div class="tisso-popup-product-detail">
+      <img class="tisso-popup-product-image" src="" />
+      <div class="tisso-popup-product-summary">
+        <div class="tisso-popup-product-name"></div>
+        <div class="tisso-popup-product-price"></div>
+        <div class="tisso-popup-product-description"></div>
+      </div>
+    </div>
+    <div class="tisso-popup-product-options"></div>
+    {% render 'tisso-button' button_text: "ADD TO CART", classname: "tisso-popup-submit-button", variant: 'secondary' %}
+  </div>
+</div>
+
+<style>
+  .tisso-popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000050;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+
+  .tisso-popup-content {
+    width: 311px;
+    height: 447px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    padding: 20px;
+  }
+
+  .tisso-close-icon {
+    align-self: flex-end;
+    cursor: pointer;
+    width: 13px;
+    height: 13px;
+  }
+
+  .tisso-popup-product-detail {
+    display: flex;
+    height: 140px;
+    font-weight: 400;
+    line-height: 19.2px;
+    text-align: left;
+  }
+
+  .tisso-popup-product-image {
+    height: 100%;
+    margin-right: 8px;
+    width: 120px;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .tisso-popup-product-description {
+    font-family: Jost;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 13.2px;
+    letter-spacing: -0.01em;
+    text-align: left;
+  }
+
+  .tisso-popup-product-price {
+    font-family: Lustria;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.2px;
+    margin-top: 22px;
+    text-align: left;
+  }
+
+  .tisso-popup-product-name {
+    margin: 0;
+    margin-top: 13px;
+    font-family: Jost;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19.2px;
+    text-align: left;
+  }
+
+  .tisso-color-options {
+    margin-top: 10px;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .tisso-color-input-wrapper {
+    position: relative;
+    border: 0.5px solid #000000;
+    display: flex;
+  }
+
+  .color-option-input:checked + .color-option-label {
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+  .color-option-label {
+    width: 135.5px;
+    height: 40.44px;
+    display: flex;
+    position: relative;
+    align-items: center;
+    font-family: Jost;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding-left: 15px;
+  }
+
+  .color-option-label::before {Add to cart
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5.81px;
+    background-color: #ffffff;
+    border-right: #000000;
+    border-style: solid;
+    border-width: 0.5px;
+  }
+
+  .tisso-color-options-wrapper {
+    display: flex;
+  }
+
+  .color-option-input {
+    width: 135.5px;
+    height: 40.44px;
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+  }
+  .tisso-option-select-wrapper {
+    position: relative;
+    margin-top: 11.52px;
+    flex-direction: column;
+    display: flex;
+    cursor: pointer;
+  }
+  .tisso-option-select {
+    width: 271px;
+    height: 40.44px;
+    background-color: transparent;
+    appearance: none;
+    cursor: pointer;
+    padding-left: 13px;
+    font-family: Jost;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+
+  .tisso-option-select:focus {
+    outline: none;
+  }
+
+  .tisso-option-select-wrapper::after {
+    content: url("{{ 'down-arrow.svg' |  asset_url }}");
+    position: absolute;
+    right: 10px;
+    pointer-events: none;
+    top: 50%;
+  }
+
+  .tisso-popup-submit-button {
+    margin-top: 51px;
+    width: 271px;
+    font-family: Jost;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20.48px;
+    text-align: center;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('tissoPopup');
+    const popupClose = document.querySelector('.tisso-close-icon');
+    popupClose.addEventListener('click', () => {
+      popup.style.display = 'none';
+    });
+
+    const addToCartButton = document.querySelector('.tisso-popup-submit-button')
+     addToCartButton.addEventListener('click', (event) => {
+      const popupContainer = event.target.closest('.tisso-popup-content');
+
+      let selected_color = '';
+      const selectedRadio = popupContainer.querySelectorAll('.color-option-input');
+        for (i = 0; i < selectedRadio.length; i++) {
+            if (selectedRadio[i].checked)
+              selected_color = selectedRadio[i].value;
+        }
+       const selected_opt = popupContainer.querySelector('.tisso-option-select-wrapper select').value;
+
+       const variant_compare = selected_color + ' / ' +  selected_opt;
+
+       popupContainer.querySelectorAll('.variant_details_popup').forEach((variant_elem) => {
+
+         if(variant_elem.dataset.popupVariantTitle == variant_compare){
+           const varId = variant_elem.dataset.popupVariantId;
+           const varTitle = variant_elem.dataset.popupVariantTitle;
+           console.log(varTitle)
+           const formData = {
+             'items': [{
+              'id': varId,
+              'quantity': 1
+              }]
+            };
+            fetch(window.Shopify.routes.root + 'cart/add.js', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(formData)
+            })
+            .then(response => {
+              if(varTitle == 'Black / M'){
+                      const giftformData = {
+                   'items': [{
+                    'id': 48796123562275,
+                    'quantity': 1
+                    }]
+                  };
+                  fetch(window.Shopify.routes.root + 'cart/add.js', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(giftformData)
+                  })
+                  .then(response => {
+                    location.href = '/cart';
+                  })
+                  .catch((error) => {
+                    console.error('Error:', error);
+                  });
+              }else{
+                location.href = '/cart'
+              }
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+         }
+       })
+    });
+  })
+</script>
